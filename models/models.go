@@ -10,10 +10,3 @@ type BoolTable struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
-
-// InputBool is used to bind to the input JSON file as the InputBool
-// only has value and label
-type InputBool struct {
-	Value bool   `json:"value"`
-	Label string `json:"label"`
-}

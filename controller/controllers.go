@@ -2,7 +2,6 @@ package controller
 
 import (
 	"net/http"
-	"time"
 
 	"github.com/Boolean/dbConfig"
 	"github.com/Boolean/models"
@@ -12,25 +11,19 @@ import (
 
 // AddBool function is used to add a new boolean into the database
 func AddBool(c *gin.Context) {
-	var inp models.InputBool
-	err := c.BindJSON(&inp)
+	var input models.BoolTable
+	err := c.BindJSON(&input)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	newEntry := models.BoolTable{
-		ID:        xid.New().String(),
-		Value:     inp.Value,
-		Label:     inp.Label,
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
-	}
+	input.ID = xid.New().String()
 
-	dbConfig.DB.Create(&newEntry)
+	dbConfig.DB.Create(&input)
 
-	c.JSON(http.StatusOK, newEntry)
+	c.JSON(http.StatusOK, input)
 }
 
 // GetBool is used to retrieve a boolean from the database
