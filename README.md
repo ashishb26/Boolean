@@ -34,6 +34,10 @@ The API server is configured to listen to the port **8080**
   /adduser
   ```
   and supply the new username and password in JSON format
+- User can logout using the endpoint 
+  ```sh
+  /logout
+  ```
 
 #### Endpoints:
 -  ```sh
