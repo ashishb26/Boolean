@@ -67,7 +67,7 @@ The API server is configured to listen to the port **8080**
 The project has three packages (apart from main)
 - **models**  
 The models.go file in the models package consists of the definitions of various structs to be used to bind to user JSON input and/or define database schemas
-- **controller**
-The controller package consists of logic to handle various endpoints and authentication
-- **dbConfig**
-This package is used to handle database connection and configuration
+- **controller**  
+  The controller package consists of logic to handle various endpoints and authentication
+- **dbConfig**  
+  This package is used to handle database connection and configuration
