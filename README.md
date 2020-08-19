@@ -61,7 +61,7 @@ The API server is configured to listen to the port **8080**
   ```
   Deletes a boolean record (if it exists) from the database whose id matches the given input id
 
-**Note**: sync.RWMutex has been used in the implementation 
+- Also note that sync.RWMutex has been used to synchronize database access.
   
 # Project Structure
 The project has three packages (apart from main)
