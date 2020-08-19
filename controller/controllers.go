@@ -19,7 +19,9 @@ import (
 // }
 func AddBool(c *gin.Context) {
 
-	if !authUser(c) {
+	isAuth, status, _ := authUser(c)
+	if !isAuth {
+		c.JSON(status, gin.H{"error": "User doesn't have authentication"})
 		return
 	}
 
@@ -42,7 +44,9 @@ func AddBool(c *gin.Context) {
 // provided the id of the database record
 func GetBool(c *gin.Context) {
 
-	if !authUser(c) {
+	isAuth, status, _ := authUser(c)
+	if !isAuth {
+		c.JSON(status, gin.H{"error": "User doesn't have authentication"})
 		return
 	}
 
@@ -69,7 +73,9 @@ func GetBool(c *gin.Context) {
 //}
 func UpdateBool(c *gin.Context) {
 
-	if !authUser(c) {
+	isAuth, status, _ := authUser(c)
+	if !isAuth {
+		c.JSON(status, gin.H{"error": "User doesn't have authentication"})
 		return
 	}
 
@@ -100,7 +106,9 @@ func UpdateBool(c *gin.Context) {
 // matches the given id
 func DeleteBool(c *gin.Context) {
 
-	if !authUser(c) {
+	isAuth, status, _ := authUser(c)
+	if !isAuth {
+		c.JSON(status, gin.H{"error": "User doesn't have authentication"})
 		return
 	}
 
@@ -123,6 +131,13 @@ func DeleteBool(c *gin.Context) {
 
 // Login authenticates the user and sets a token as a cookie
 func Login(c *gin.Context) {
+
+	isAuth, _, _ := authUser(c)
+	if isAuth {
+		c.JSON(http.StatusBadRequest, "Another user already logged in")
+		return
+	}
+
 	var userCred models.Credentials
 
 	if err := c.ShouldBindJSON(&userCred); err != nil {
@@ -132,7 +147,7 @@ func Login(c *gin.Context) {
 
 	var authCred models.Credentials
 	if err := dbConfig.DB.Where("username=?", userCred.Username).First(&authCred).Error; err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Incorrect login credentials"})
 		return
 	}
 
@@ -154,9 +169,18 @@ func Login(c *gin.Context) {
 
 }
 
+// Logout is used to log a user out
+func Logout(c *gin.Context) {
+	c.SetCookie("authToken", "", 0, "/", "localhost", false, true)
+	c.JSON(http.StatusOK, "User logged out")
+}
+
 // AddUser allows a logged in user to add another user
 func AddUser(c *gin.Context) {
-	if !authUser(c) {
+
+	isAuth, status, _ := authUser(c)
+	if !isAuth {
+		c.JSON(status, gin.H{"error": "User doesn't have authentication"})
 		return
 	}
 
@@ -167,6 +191,8 @@ func AddUser(c *gin.Context) {
 	}
 
 	var record models.Credentials
+
+	// Check if the given username is already in the database
 	err := dbConfig.DB.Where("username=?", cred.Username).First(&record).Error
 	if gorm.IsRecordNotFoundError(err) {
 		cred.ID = xid.New().String()

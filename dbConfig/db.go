@@ -7,7 +7,6 @@ import (
 	"github.com/Boolean/models"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/rs/xid"
 )
 
@@ -16,9 +15,9 @@ import (
 var DB *gorm.DB
 var err error
 
-var dbUserName = "ashish"
-var dbPassword = "root"
-var dbName = "tempdb"
+var dbUserName = "root"
+var dbPassword = ""
+var dbName = "booldb"
 
 // Mu is a RWMutex used to synchronize database read and writes
 var Mu *sync.RWMutex
@@ -39,6 +38,7 @@ func ConnectDb() {
 
 	var record models.Credentials
 
+	// Check if (root,password) is already present in the database
 	err := DB.Where("username=?", "root").First(&record).Error
 	if gorm.IsRecordNotFoundError(err) {
 

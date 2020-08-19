@@ -31,15 +31,15 @@ func createToken(userCred models.Credentials, expirationTime time.Time) (string,
 // authUser authenticates the user by verifying the legality of the
 // token stored in the form of cookies (if already logged in).
 // Otherwise it restricts user access
-func authUser(c *gin.Context) bool {
+func authUser(c *gin.Context) (bool, int, string) {
 	tokenString, err := c.Cookie("authToken")
 	if err != nil {
 		if err == http.ErrNoCookie {
-			c.JSON(http.StatusUnauthorized, "User not authorised")
-			return false
+			//c.JSON(http.StatusUnauthorized, "User not authorised")
+			return false, http.StatusUnauthorized, "User not authorised"
 		}
 		c.JSON(http.StatusBadRequest, gin.H{"error": err})
-		return false
+		return false, http.StatusBadRequest, err.Error()
 	}
 
 	claims := &models.Claims{}
@@ -53,19 +53,19 @@ func authUser(c *gin.Context) bool {
 
 	if err != nil {
 		if err == jwt.ErrSignatureInvalid {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": err})
-			return false
+			//	c.JSON(http.StatusUnauthorized, gin.H{"error": err})
+			return false, http.StatusUnauthorized, err.Error()
 		}
-		c.JSON(http.StatusBadRequest, gin.H{"error": err})
-		return false
+		//c.JSON(http.StatusBadRequest, gin.H{"error": err})
+		return false, http.StatusBadRequest, err.Error()
 	}
 
 	_, ok := token.Claims.(*models.Claims)
 
 	if !ok || !token.Valid {
-		c.JSON(http.StatusUnauthorized, "User not authorized")
-		return false
+		//c.JSON(http.StatusUnauthorized, "User not authorized")
+		return false, http.StatusUnauthorized, "User not authorized"
 	}
 
-	return true
+	return true, http.StatusOK, ""
 }
