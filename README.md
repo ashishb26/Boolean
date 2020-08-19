@@ -9,7 +9,7 @@
   go get github.com/rs/xid
   ```
 - Database :
-  By default the app uses a local MySQL database with user credentials as shown below, in the **db.go** file in the package **dbConfig**
+  By default the app uses a local MySQL database with user credentials as shown below and intialised in the **db.go** file in the package **dbConfig**
    ```go
    var dbUserName = "root"
    var dbPassword = ""
@@ -60,3 +60,14 @@ The API server is configured to listen to the port **8080**
   DELETE "/:id"
   ```
   Deletes a boolean record (if it exists) from the database whose id matches the given input id
+
+**Note**: sync.RWMutex has been used in the implementation 
+  
+# Project Structure
+The project has three packages (apart from main)
+- **models**  
+The models.go file in the models package consists of the definitions of various structs to be used to bind to user JSON input and/or define database schemas
+- **controller**
+The controller package consists of logic to handle various endpoints and authentication
+- **dbConfig**
+This package is used to handle database connection and configuration
