@@ -67,7 +67,7 @@ The API server is configured to listen to the port **8080**
 
 - Also note that sync.RWMutex has been used to synchronize database access.
   
-# Project Structure
+## Project Structure
 The project has three packages (apart from main)
 - **models**  
 The models.go file in the models package consists of the definitions of various structs to be used to bind to user JSON input and/or define database schemas
