@@ -36,7 +36,7 @@ The API server is configured to listen to the port **8080**
   and supply the new username and password in JSON format
 
 #### Endpoints:
-- **POST "/"**. 
+- **POST "/"**  
    Adds a new boolean to the database. Input JSON format expected is:
    ```sh
    "value": true/false (If not supplied default is false)
