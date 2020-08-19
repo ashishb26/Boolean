@@ -15,5 +15,6 @@ func main() {
 	router.PATCH("/:id", controller.UpdateBool)
 	router.DELETE("/:id", controller.DeleteBool)
 	router.POST("/login", controller.Login)
+	router.POST("/adduser", controller.AddUser)
 	router.Run(":8080")
 }

@@ -12,6 +12,7 @@ import (
 
 var secretKey = []byte("idghskdjfbsjduew")
 
+// createToken creates and returns a token using the user credentials supplied
 func createToken(userCred models.Credentials, expirationTime time.Time) (string, error) {
 
 	claims := models.Claims{
@@ -27,6 +28,9 @@ func createToken(userCred models.Credentials, expirationTime time.Time) (string,
 	return tokenString, err
 }
 
+// authUser authenticates the user by verifying the legality of the
+// token stored in the form of cookies (if already logged in).
+// Otherwise it restricts user access
 func authUser(c *gin.Context) bool {
 	tokenString, err := c.Cookie("authToken")
 	if err != nil {
