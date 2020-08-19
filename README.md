@@ -36,19 +36,19 @@ The API server is configured to listen to the port **8080**
   and supply the new username and password in JSON format
 
 #### Endpoints:
-- **POST "/"** 
+- **POST "/"**. 
    Adds a new boolean to the database. Input JSON format expected is:
    ```sh
    "value": true/false (If not supplied default is false)
    "label": "Sample label"  (Optional)
    ```
-- **GET "/:id"**
+- **GET "/:id"**. 
   Extracts a boolean record (if it exists) from the database whose id matches the given input id
-- **PATCH "/:id"**
+- **PATCH "/:id"**. 
   Updates the boolean record (if it exists) from the database whose id matches the given input id, using the information supplied in the JSON format:
   ```sh
   "value":   (Optional)
   "label":   (Optional)
   ```
-- **DELETE "/:id"**
+- **DELETE "/:id"**. 
   Deletes a boolean record (if it exists) from the database whose id matches the given input id
