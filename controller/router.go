@@ -2,7 +2,7 @@ package controller
 
 import "github.com/ashishb26/rzpbool/middleware"
 
-// InitRoutes initializes the routes for the Router in the server
+// InitRoutes initializes the routes for the Router in the Server struct
 func (s *Server) InitRoutes() {
 	api := s.Router.Group("/api")
 	api.Use(middleware.AuthUser())

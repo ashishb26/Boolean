@@ -17,7 +17,7 @@ type claims struct {
 }
 
 // GetToken takes a user struct as input, creates a token using
-// the username and expiration time and returns a tokenstring
+// the username, expiration time and returns a token string
 func GetToken(user models.User) (string, error) {
 	expirationTime := time.Now().Add(10 * time.Minute)
 	claims := claims{

@@ -4,12 +4,13 @@ services:
   app:
     container_name: bool_api
     build: .
-    image: ashishb26/rzpbool
+    image: ashishb26/Boolean
     ports: 
       - 8080:8080 
     restart: on-failure
     depends_on:
-      - bool-mysql          
+      - bool-mysql 
+      - redis      
     networks:
       - backend
 
@@ -27,6 +28,12 @@ services:
       - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
     volumes:
       - ./mysql_db:/docker-entrypoint-initdb.d/:ro
+    networks:
+      - backend
+    
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
     networks:
       - backend
 

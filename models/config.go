@@ -43,3 +43,12 @@ func GetSecretKey() (string, error) {
 	}
 	return os.Getenv("API_SECRET"), nil
 }
+
+// GetRedisAddr returns the address of the redis service
+func GetRedisAddr() (string, error) {
+	err := godotenv.Load(".env")
+	if err != nil {
+		return "", errors.New("Error loading enviroment variable")
+	}
+	return os.Getenv("REDIS_ADDR"), nil
+}

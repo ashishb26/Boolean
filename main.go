@@ -1,6 +1,8 @@
 package main
 
-import "github.com/ashishb26/rzpbool/controller"
+import (
+	"github.com/ashishb26/rzpbool/controller"
+)
 
 func main() {
 	newServer := controller.NewServer()
