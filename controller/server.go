@@ -4,6 +4,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/ashishb26/rzpbool/config"
 	"github.com/ashishb26/rzpbool/models"
 	"github.com/gin-gonic/gin"
 
@@ -25,7 +26,7 @@ type Server struct {
 // NewServer creates a new database connection and router and returns a Server struct
 func NewServer() *Server {
 
-	dbConfig := models.GetDBConfig()
+	dbConfig := config.GetDBConfig()
 
 	db, err := gorm.Open("mysql", dbConfig.DBUser+":"+dbConfig.DBPassword+"@tcp("+dbConfig.DBHost+":"+dbConfig.DBPort+")/"+dbConfig.DBName+"?charset=utf8&parseTime=True&loc=Local")
 
@@ -52,7 +53,7 @@ func NewServer() *Server {
 // GetRedisLock creates a new redis client and reddis based mutex
 func GetRedisLock() (*redsync.Mutex, error) {
 
-	redisAddr, err := models.GetRedisAddr()
+	redisAddr, err := config.GetRedisAddr()
 	if err != nil {
 		return nil, err
 	}

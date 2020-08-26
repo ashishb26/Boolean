@@ -1,4 +1,4 @@
-package models
+package config
 
 import (
 	"errors"
@@ -17,20 +17,34 @@ type DBConfig struct {
 	DBPort     string
 }
 
+func checkExists(exists bool) {
+	if !exists {
+		log.Fatalln("Error reading environment variables")
+	}
+}
+
 // GetDBConfig returns a DBConfig struct after extracting the environment variables
 func GetDBConfig() *DBConfig {
 	err := godotenv.Load(".env")
 	if err != nil {
-		//log.Fatalln("Error reading environment variables")
-		log.Fatalln(err.Error())
-		return nil
+		log.Fatalln("Error reading environment variables")
 	}
+	dbHost, exists := os.LookupEnv("DB_HOST")
+	checkExists(exists)
+	dbName, exists := os.LookupEnv("DB_NAME")
+	checkExists(exists)
+	dbUser, exists := os.LookupEnv("DB_USER")
+	checkExists(exists)
+	dbPassword, exists := os.LookupEnv("DB_PASSWORD")
+	checkExists(exists)
+	dbPort, exists := os.LookupEnv("DB_PORT")
+	checkExists(exists)
 	return &DBConfig{
-		DBHost:     os.Getenv("DB_HOST"),
-		DBName:     os.Getenv("DB_NAME"),
-		DBUser:     os.Getenv("DB_USER"),
-		DBPassword: os.Getenv("DB_PASSWORD"),
-		DBPort:     os.Getenv("DB_PORT"),
+		DBHost:     dbHost,
+		DBName:     dbName,
+		DBUser:     dbUser,
+		DBPassword: dbPassword,
+		DBPort:     dbPort,
 	}
 }
 
@@ -41,7 +55,11 @@ func GetSecretKey() (string, error) {
 	if err != nil {
 		return "", errors.New("Error loading enviroment variable")
 	}
-	return os.Getenv("API_SECRET"), nil
+	key, exists := os.LookupEnv("API_SECRET")
+	if !exists {
+		return "", errors.New("Environment variable not found")
+	}
+	return key, nil
 }
 
 // GetRedisAddr returns the address of the redis service
@@ -50,5 +68,9 @@ func GetRedisAddr() (string, error) {
 	if err != nil {
 		return "", errors.New("Error loading enviroment variable")
 	}
-	return os.Getenv("REDIS_ADDR"), nil
+	addr, exists := os.LookupEnv("REDIS_ADDR")
+	if !exists {
+		return "", errors.New("Environment variable not found")
+	}
+	return addr, nil
 }

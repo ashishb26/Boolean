@@ -267,3 +267,18 @@ func TestGetRecordThatDoesntExist(t *testing.T) {
 		t.Error("Expected to return an error. Actual: no error")
 	}
 }
+
+func TestDeleteRecordThatDoesNotExist(t *testing.T) {
+	server := setServer()
+	bearer, err := getBearerToken()
+	req, err := http.NewRequest("DELETE", "/api/"+"1824fgjewyerq814", nil)
+	req.Header.Set("Authorization", bearer)
+	if err != nil {
+		t.Error(err.Error())
+	}
+	w := httptest.NewRecorder()
+	server.Router.ServeHTTP(w, req)
+	if w.Code != http.StatusBadRequest {
+		t.Error("Expected to return an error. Actual: no error")
+	}
+}

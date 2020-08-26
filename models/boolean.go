@@ -34,7 +34,7 @@ func (record *BoolRecord) GetRecordByID(DB *gorm.DB, recordID string) error {
 
 // UpdateRecord updates a database record
 func (record *BoolRecord) UpdateRecord(DB *gorm.DB) error {
-	DB.Model(&record).Updates(record)
+	DB.Save(record)
 	return nil
 }
 

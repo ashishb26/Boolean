@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/ashishb26/rzpbool/config"
 	"github.com/ashishb26/rzpbool/models"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -28,7 +29,7 @@ func GetToken(user models.User) (string, error) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	secretKey, err := models.GetSecretKey()
+	secretKey, err := config.GetSecretKey()
 	if err != nil {
 		return "", err
 	}
@@ -59,7 +60,7 @@ func IsValidToken(c *gin.Context) error {
 func ValidateToken(tokenString string) error {
 	userClaims := &claims{}
 
-	secretKey, err := models.GetSecretKey()
+	secretKey, err := config.GetSecretKey()
 
 	if err != nil {
 		return err

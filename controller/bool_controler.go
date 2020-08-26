@@ -50,12 +50,12 @@ func (s *Server) UpdateBool(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
 		return
 	}
-
-	if err := c.ShouldBindJSON(&record); err != nil {
+	c.JSON(http.StatusOK, record)
+	if err := c.ShouldBindJSON(record); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"Error": err.Error()})
 		return
 	}
-
+	c.JSON(http.StatusOK, record)
 	if err := record.UpdateRecord(s.DB); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"Error": err.Error()})
 		return
