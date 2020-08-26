@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// AuthUser authnticates the user first before making any api calls
+// AuthUser middleware authnticates the user first before making any api calls
 func AuthUser() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		err := auth.IsValidToken(c)
