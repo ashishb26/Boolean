@@ -4,7 +4,7 @@ services:
   app:
     container_name: bool_api
     build: .
-    image: ashishb26/Boolean
+    image: ashishb26/boolean
     ports: 
       - 8080:8080 
     restart: on-failure
